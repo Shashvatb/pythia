@@ -22,6 +22,7 @@ def gen_url(section):
     # urls.append('https://ia800500.us.archive.org/22/items/stackexchange/' + section + '.stackexchange.com.7z')
     # urls.append('https://ia800500.us.archive.org/22/items/stackexchange/' + section + '.7z')
     urls.append('https://archive.org/download/stackexchange/' + section + '.stackexchange.com.7z')
+    urls.append('https://archive.org/download/stackexchange/' + section + '.7z')
     # urls.append('https://ia800500.us.archive.org/view_archive.php?archive=/27/items/stackexchange/' + section + '.stackexchange.com.7z')
     return urls
 
@@ -113,7 +114,16 @@ def load(url, file_name, folder):
                             break
                         out_file.write(block)
             except error.HTTPError as e:
-                print("Error: URL retrieval of " + url[0] + " failed for reason: \n" + e.reason)
+                try:
+                    with request.urlopen(url[1]) as fp:
+                        block_size = 1024 * 8
+                        while True:
+                            block = fp.read(block_size)
+                            if not block:
+                                break
+                            out_file.write(block)
+                except error.HTTPError as e:
+                    print("Error: URL retrieval of " + url[0] +  " and " + url[1] + " failed for reason: \n" + e.reason)
     print('unzipping')
     # un-zips file and puts contents in folder
     a = py7z_extractall.un7zip(file_name)
