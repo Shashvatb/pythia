@@ -35,6 +35,7 @@ def main(argv):
     '''
     controls the over-arching implmentation of the algorithms
     '''
+    print('starting')
     directory, features, algorithms, parameters = argv
     
     # Create a numpy random state

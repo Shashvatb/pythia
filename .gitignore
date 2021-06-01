@@ -3,6 +3,8 @@
 # Example .gitignore files: https://github.com/github/gitignore
 /bower_components/
 /node_modules/
+venv/
+/venv/
 
 ##Github EMACS Ignore
 *~
@@ -94,3 +96,8 @@ nosetests.xml
 
 # backup files
 *.py.bak
+*.7z
+*.json
+*.xlsx
+
+data/stackexchange/
