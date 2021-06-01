@@ -101,6 +101,7 @@ def load(url, file_name, folder):
     #         # except error.HTTPError as e:
     #         print("Error: URL retrieval of " + url[0] + " failed for reason: \n" + e.reason)
     #         quit()
+    cont = True
     if not os.path.isfile(file_name):
         print('downloading')
         with open(file_name, 'wb') as out_file:
@@ -123,13 +124,16 @@ def load(url, file_name, folder):
                                 break
                             out_file.write(block)
                 except error.HTTPError as e:
-                    print("Error: URL retrieval of " + url[0] +  " and " + url[1] + " failed for reason: \n" + e.reason)
-    print('unzipping')
-    # un-zips file and puts contents in folder
-    a = py7z_extractall.un7zip(file_name)
-    if not (os.path.isfile(os.path.join(folder, "PostLinks.xml")) and os.path.isfile(
-            os.path.join(folder, "Posts.xml"))):
-        a.extractall(folder)
+                    print("Error: URL retrieval of " + url[0] + " and " + url[1] + " failed for reason: \n" + e.reason)
+                    cont = False
+    if cont:
+        print('unzipping')
+        # un-zips file and puts contents in folder
+        a = py7z_extractall.un7zip(file_name)
+        if not (os.path.isfile(os.path.join(folder, "PostLinks.xml")) and os.path.isfile(
+                os.path.join(folder, "Posts.xml"))):
+            a.extractall(folder)
+    return cont
 
 
 def get_links(folder):
@@ -272,7 +276,9 @@ def main(args):
         print("Starting " + section)
 
         # downloads and unzips data release for a site
-        load(url, zip_file_path, unzipped_folder)
+        cont = load(url, zip_file_path, unzipped_folder)
+        if not cont:
+            continue
 
         # gets the links data from the links table for the site
         links = get_links(unzipped_folder)
