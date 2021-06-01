@@ -50,5 +50,7 @@ Prebuilt documentation available at http://lab41.github.io/pythia
 ## Updates
 
 requirements.txt created for python 3.8 (ubuntu)
+
 stack exchange data parser updated to accomodate the data (2021) : https://github.com/Shashvatb/pythia/blob/master/src/data/stackexchange/stack_exchange_parse.py
+
 list of all topics generated (2021) : https://github.com/Shashvatb/pythia/blob/master/src/data/stackexchange/final_list.txt
